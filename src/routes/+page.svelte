@@ -1,28 +1,10 @@
 <script>
-    // Your Svelte component logic here
+	// Your Svelte component logic here
 </script>
 
-<div class="flex">
-    <div class="grid grid-cols-2 gap-4">
-        <div class="p-4 bg-gray-200">
-            <!-- Content for the first item -->
-            <h2 class="text-xl font-bold">Item 1</h2>
-            <p>This is the content for the first item.</p>
-        </div>
-        <div class="p-4 bg-gray-200">
-            <!-- Content for the second item -->
-            <h2 class="text-xl font-bold">Item 2</h2>
-            <p>This is the content for the second item.</p>
-        </div>
-        <div class="p-4 bg-gray-200">
-            <!-- Content for the third item -->
-            <h2 class="text-xl font-bold">Item 3</h2>
-            <p>This is the content for the third item.</p>
-        </div>
-        <div class="p-4 bg-gray-200">
-            <!-- Content for the fourth item -->
-            <h2 class="text-xl font-bold">Item 4</h2>
-            <p>This is the content for the fourth item.</p>
-        </div>
-    </div>
+<div class="grid grid-cols-2 gap-4 mt-12">
+    <div class="w-full h-0 shadow-lg aspect-w-1 aspect-h-1 rounded-xl bg-yellow-300"></div>
+    <div class="w-full h-0 shadow-lg aspect-w-1 aspect-h-1 rounded-xl bg-red-300"></div>
+    <div class="w-full h-0 shadow-lg aspect-w-1 aspect-h-1 rounded-xl bg-green-300"></div>
+    <div class="w-full h-0 shadow-lg aspect-w-1 aspect-h-1 rounded-xl bg-indigo-300"></div>
 </div>

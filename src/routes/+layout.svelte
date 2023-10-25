@@ -3,11 +3,10 @@
 	import Header from './Header.svelte';
 </script>
 
-<div class="flex flex-col min-h-screen">
-
+<div>
   <Header/>
 
-  <main class="flex-1 flex flex-col p-4 max-w-screen-lg mx-auto">
+  <main class="max-w-screen-lg mx-auto p-4">
     <slot />
   </main>
 

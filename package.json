@@ -33,6 +33,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@prisma/client": "^5.5.0"
+		"@prisma/client": "^5.5.0",
+		"@tailwindcss/aspect-ratio": "^0.4.2"
 	}
 }
