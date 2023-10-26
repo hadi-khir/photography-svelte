@@ -21,6 +21,7 @@ model Photo {
   id Int @id @default(autoincrement())
   title String @unique
   url String
+  preview_url String
   album Album @relation(fields: [albumId], references: [id])
   albumId Int
 
