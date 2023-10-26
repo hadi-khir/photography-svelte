@@ -3,14 +3,14 @@
 	import Header from './Header.svelte';
 </script>
 
-<div>
+<div class="flex flex-col min-h-screen">
   <Header/>
 
-  <main class="max-w-screen-lg mx-auto p-4">
+  <main class="flex-1 container mx-auto p-4">
     <slot />
   </main>
 
-  <footer class="flex flex-col justify-center items-center p-2">
+  <footer class="text-center py-4">
     <p>Thanks for stopping by!</p>
   </footer>
 </div>
