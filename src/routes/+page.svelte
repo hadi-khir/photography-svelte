@@ -2,7 +2,7 @@
 	// Your Svelte component logic here
 </script>
 
-<div class="grid grid-cols-2 gap-4 mt-12">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12">
 	<div class="w-full h-0 shadow-lg aspect-w-1 aspect-h-1 relative">
 		<div>
 			<img
