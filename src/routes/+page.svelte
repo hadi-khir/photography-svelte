@@ -6,8 +6,8 @@
 	<div class="w-full h-0 shadow-lg aspect-w-1 aspect-h-1 relative">
 		<div>
 			<img
-				src={'https://czlkmhdfsockxgulkjtb.supabase.co/storage/v1/object/public/photos/common_pigeon.jpg?t=2023-10-26T18%3A09%3A49.838Z'}
-				alt={'Seagull overlooking pond'}
+				src={'https://czlkmhdfsockxgulkjtb.supabase.co/storage/v1/object/public/photos/Birds/american_robin.jpg'}
+				alt={'American Robin in a tree'}
                 class="aspect-square w-full h-full"
 			/>
 			<div class="absolute bottom-0 left-0 right-0 px-4 py-2 bg-gray-800 opacity-70">
