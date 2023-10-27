@@ -30,7 +30,8 @@
 	nav {
 		display: flex;
 		justify-content: center;
-		--background: rgba(69, 67, 67, 0.8);
+		--background: rgba(0, 0, 0, 0.3);
+		--selected-color: rgb(6, 15, 118);
 	}
 
 	svg {
@@ -70,7 +71,11 @@
 		top: 0;
 		left: calc(50% - var(--size));
 		border: var(--size) solid transparent;
-		border-top: var(--size) solid rgb(6, 15, 118);
+		border-top: var(--size) solid var(--selected-color);
+	}
+
+	li[aria-current='page'] a {
+		color: var(--selected-color);
 	}
 
 	nav a {
@@ -88,6 +93,6 @@
 	}
 
 	a:hover {
-		color: rgb(6, 15, 118);
+		color: var(--selected-color);
 	}
 </style>
