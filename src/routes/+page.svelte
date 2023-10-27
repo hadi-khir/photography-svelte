@@ -1,25 +1,30 @@
 <script lang="ts">
+	import type { IfcAlbum } from '../interfaces/IfcAlbum';
+	import type { PageData } from './$types';
 	import Album from './Album.svelte';
 
-	//TODO: call db to get album details
-	const albumResponse = [
-		{
-			altText: 'European Starlings on windvine',
-			imgSrc:
-				'https://czlkmhdfsockxgulkjtb.supabase.co/storage/v1/object/public/photos/Birds/european_starlings.jpg',
-			title: 'Birds'
-		},
-		{
-			altText: 'Lookout tower',
-			imgSrc:
-				'https://czlkmhdfsockxgulkjtb.supabase.co/storage/v1/object/public/photos/Cities/DSCF9352.jpg?t=2023-10-26T18%3A17%3A34.112Z',
-			title: 'Around the world'
+	export let data: PageData;
+
+	const getAlbumCoverInfo = (album: IfcAlbum) => {
+
+		const albumPhoto = album.photos.at(0);
+		if (albumPhoto) {
+			return {
+				imgSrc: albumPhoto.thumbnail,
+				altText: albumPhoto.title,
+			};
 		}
-	];
+		
+		console.log('No album cover photo found, returning empty info');
+		return {
+			imgSrc: '',
+			altText: '',
+		};
+	}
 </script>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12">
-	{#each albumResponse as album}
-		<Album altText={album.altText} imgSrc={album.imgSrc} title={album.title} />
+	{#each data.albums as album}
+		<Album altText={getAlbumCoverInfo(album).altText} imgSrc={getAlbumCoverInfo(album).imgSrc} title={album.title} />
 	{/each}
 </div>
