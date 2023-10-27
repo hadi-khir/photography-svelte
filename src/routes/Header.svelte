@@ -30,7 +30,7 @@
 	nav {
 		display: flex;
 		justify-content: center;
-		--background: rgba(235, 254, 255, 0.811);
+		--background: rgba(69, 67, 67, 0.8);
 	}
 
 	svg {
@@ -70,7 +70,7 @@
 		top: 0;
 		left: calc(50% - var(--size));
 		border: var(--size) solid transparent;
-		border-top: var(--size) solid var(--color-theme-1);
+		border-top: var(--size) solid rgb(6, 15, 118);
 	}
 
 	nav a {
@@ -78,7 +78,7 @@
 		height: 100%;
 		align-items: center;
 		padding: 0 0.5rem;
-		color: var(--color-text);
+		color: white;
 		font-weight: 700;
 		font-size: 0.8rem;
 		text-transform: uppercase;
@@ -88,6 +88,6 @@
 	}
 
 	a:hover {
-		color: var(--color-theme-1);
+		color: rgb(6, 15, 118);
 	}
 </style>
