@@ -11,6 +11,27 @@ datasource db {
   relationMode = "prisma"
 }
 
+model Metadata {
+  id Int @id @default(autoincrement())
+  captureDate DateTime @default(now())
+  camera String
+  lens String?
+  iso Int
+  aperture Float
+  shutterSpeed Float
+  focalLength Float
+  title String
+  caption String
+  copyright String
+  location String
+  city String
+  province String
+  country String
+
+  photo Photo @relation(fields: [photoId], references: [id])
+  photoId Int @unique
+}
+
 model Album {
   id Int @id @default(autoincrement())
   title String @unique
@@ -24,6 +45,7 @@ model Photo {
   thumbnail String
   album Album @relation(fields: [albumId], references: [id])
   albumId Int
+  metadata Metadata?
 
   @@index([albumId])
 }
