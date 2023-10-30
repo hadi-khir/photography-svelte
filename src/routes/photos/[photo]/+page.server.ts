@@ -5,8 +5,15 @@ import type { PageServerLoad } from './$types';
 export const load = (async ({ params: { photo } }) => {
     const photoResponse = await prisma.photo.findUnique({
         where: { id: Number(photo) },
-        include: {metadata: true}
+        include: {
+            metadata: {
+                include: {
+                    lens: true, 
+                    camera: true
+                }
+            }
+        }
     });
 
-    return { photoResponse };
+    return { photo: photoResponse };
 }) satisfies PageServerLoad;

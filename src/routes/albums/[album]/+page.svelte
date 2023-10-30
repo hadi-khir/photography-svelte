@@ -1,11 +1,10 @@
 <script lang="ts">
 	import GalleryImage from './GalleryImage.svelte';
 	import type { PageData } from './$types';
-	import type { IfcPhoto } from '../../../interfaces/IfcPhoto';
 
 	export let data: PageData;
 
-	let photos: IfcPhoto[];
+	let photos: IPhoto[];
 	if (data.albumResponse && data.albumResponse.photos) {
 		photos = data.albumResponse.photos;
 	} else {

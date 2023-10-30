@@ -1,11 +1,10 @@
 <script lang="ts">
-	import type { IfcAlbum } from '../interfaces/IfcAlbum';
 	import type { PageData } from './$types';
 	import Album from './Album.svelte';
 
 	export let data: PageData;
 
-	const getAlbumCoverInfo = (album: IfcAlbum) => {
+	const getAlbumCoverInfo = (album: IAlbum) => {
 
 		const albumPhoto = album.photos.at(0);
 		if (albumPhoto) {
