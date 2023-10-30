@@ -19,10 +19,10 @@
 		<h1 class="text-xl">{metadata.title}</h1>
 		<p class="text-sm">{metadata.camera?.model}</p>
 		<p class="text-sm">{metadata.lens?.name}</p>
-		<p class="text-sm">Aperture: {metadata.aperture}</p>
-		<p class="text-sm">Focal Length: {metadata.focalLength}</p>
+		<p class="text-sm">Aperture: {metadata.aperture}mm</p>
+		<p class="text-sm">Focal Length: f/{metadata.focalLength}</p>
 		<p class="text-sm">ISO: {metadata.iso}</p>
-		<p class="text-sm">Shutter Speed: {metadata.shutterSpeed}</p>
+		<p class="text-sm">Shutter Speed: 1/{metadata.shutterSpeed} seconds</p>
 		<p class="text-sm">{metadata.captureDate}</p>
 		<p class="text-sm">{metadata.city}, {metadata.province}, {metadata.country}</p>
 	</div>
