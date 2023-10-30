@@ -1,3 +1,5 @@
+import type { IfcMetadata } from "./IfcMetadata";
+
 export interface IfcPhoto {
     
     id: number;
@@ -5,4 +7,5 @@ export interface IfcPhoto {
     url: string;
     thumbnail: string;
     albumId: number;
+    metadata: IfcMetadata | null;
 }

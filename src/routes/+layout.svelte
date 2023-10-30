@@ -10,7 +10,7 @@
     <slot />
   </main>
 
-  <footer class="text-center py-4">
+  <footer class="text-center py-4 text-white">
     <p>Thanks for stopping by!</p>
   </footer>
 </div>
