@@ -30,8 +30,8 @@
 	nav {
 		display: flex;
 		justify-content: center;
-		--background: rgba(0, 0, 0, 0.3);
-		--selected-color: rgb(6, 15, 118);
+		--background: rgba(4, 147, 35, 0.3);
+		--selected-color: rgb(235, 84, 84);
 	}
 
 	svg {
@@ -83,7 +83,7 @@
 		height: 100%;
 		align-items: center;
 		padding: 0 0.5rem;
-		color: white;
+		color: rgb(255, 255, 255);
 		font-weight: 700;
 		font-size: 0.8rem;
 		text-transform: uppercase;

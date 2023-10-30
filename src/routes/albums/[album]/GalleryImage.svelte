@@ -8,14 +8,15 @@
 		return {
 			imgSrc: photo.thumbnail,
 			altText: photo.title,
+			id: photo.id,
 		};
 	}
 </script>
 
 <div>
-	<a href="/photos/id">
+	<a href="/photos/{getPhotoInfo(photo).id}">
 		<img
-			class="hover:scale-110 transition duration-500 cursor-pointer"
+			class="hover:scale-110 transition duration-500 cursor-pointer h-64 w-96"
 			src={getPhotoInfo(photo).imgSrc}
 			alt={getPhotoInfo(photo).altText}
 		/>

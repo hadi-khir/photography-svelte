@@ -3,7 +3,7 @@
 	import Header from './Header.svelte';
 </script>
 
-<div class="flex flex-col min-h-screen">
+<div class="flex flex-col min-h-screen bg-gray-900">
   <Header/>
 
   <main class="flex-1 container mx-auto p-4">
