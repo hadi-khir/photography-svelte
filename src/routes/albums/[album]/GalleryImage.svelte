@@ -10,7 +10,7 @@
 
 	onMount(() => {
 		const img = new Image();
-		img.src = photo.url;
+		img.src = photo.thumbnail;
 		loading = true;
 		img.onload = () => {
 			loaded = true;
