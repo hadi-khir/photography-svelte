@@ -1,5 +1,6 @@
 <script lang="ts">
 	import exifr from 'exifr';
+
 	let files: FileList;
 
 	$: if (files) {
@@ -9,7 +10,30 @@
 
 		for (const file of files) {
 			console.log(`${file.name}: ${file.size} bytes`);
-			exifr.parse(file).then((output) => console.log(output));
+			let exifData;
+			exifr
+				.parse(file)
+				.then((output) => {
+					exifData = output;
+					console.log(exifData);
+
+					const relevantMetadata = {
+						cameraMake: exifData.Make,
+						cameraModel: exifData.Model,
+						lens: exifData.LensModel,
+						focalLength: exifData.FocalLength,
+						aperture: exifData.FNumber,
+						shutterSpeed: Math.round(Math.pow(2,Number(exifData.ShutterSpeedValue))),
+						iso: exifData.ISO,
+						dateTime: exifData.CreateDate
+						// TODO: add location data by parsing gps data.                 
+					};
+
+                    console.log(relevantMetadata)
+				})
+				.catch((error) => {
+					console.error(error);
+				});
 		}
 	}
 </script>
