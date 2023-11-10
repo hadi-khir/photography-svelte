@@ -1,49 +1,93 @@
 <script lang="ts">
+
 	import exifr from 'exifr';
+	import { onMount } from 'svelte';
+	import type { PageData } from './$types';
+	import { Autocomplete } from '@skeletonlabs/skeleton';
+	import type { AutocompleteOption } from '@skeletonlabs/skeleton';
 
 	let files: FileList;
+	let payload: { fileName: string; metadata: {} }[] = [];
+	export let data: PageData;
+	let albumNames: { label: string; value: string }[] = [];
+	let inputValue = '';
+	let albumOptions: AutocompleteOption<string>[] = [];
 
 	$: if (files) {
-		// Note that `files` is of type `FileList`, not an Array:
-		// https://developer.mozilla.org/en-US/docs/Web/API/FileList
-		console.log(files);
+			// Note that `files` is of type `FileList`, not an Array:
+			// https://developer.mozilla.org/en-US/docs/Web/API/FileList
+			console.log(files);
 
-		for (const file of files) {
-			console.log(`${file.name}: ${file.size} bytes`);
-			let exifData;
-			exifr
-				.parse(file)
-				.then((output) => {
-					exifData = output;
-					console.log(exifData);
+			for (const file of files) {
+				console.log(`${file.name}: ${file.size} bytes`);
+				let exifData;
+				exifr
+					.parse(file)
+					.then((output) => {
+						exifData = output;
+						console.log(exifData);
 
-					const relevantMetadata = {
-						cameraMake: exifData.Make,
-						cameraModel: exifData.Model,
-						lens: exifData.LensModel,
-						focalLength: exifData.FocalLength,
-						aperture: exifData.FNumber,
-						shutterSpeed: Math.round(Math.pow(2, Number(exifData.ShutterSpeedValue))),
-						iso: exifData.ISO,
-						dateTime: exifData.CreateDate
-						// TODO: add location data by parsing gps data.
-					};
+						const relevantMetadata = {
+							cameraMake: exifData.Make,
+							cameraModel: exifData.Model,
+							lens: exifData.LensModel,
+							focalLength: exifData.FocalLength,
+							aperture: exifData.FNumber,
+							shutterSpeed: Math.round(Math.pow(2, Number(exifData.ShutterSpeedValue))),
+							iso: exifData.ISO,
+							dateTime: exifData.CreateDate
+						};
 
-					console.log(relevantMetadata);
-				})
-				.catch((error) => {
-					console.error(error);
-				});
+						payload.push({ fileName: file.name, metadata: relevantMetadata });
+						console.log(payload);
+					})
+					.catch((error) => {
+						console.error(error);
+					});
+			}
 		}
+
+	onMount(() => {
+		if (data.albumResponse) {
+			albumNames = data.albumResponse.map((album) => ({ label: album.title, value: album.title }));
+			albumOptions = albumNames;
+			console.log(albumOptions);
+		}
+	});
+
+	async function addImages(event: Event) {
+		const formEl = event.target as HTMLFormElement;
+		const formData = new FormData(formEl);
+		formData.append('metadata', JSON.stringify(payload));
+
+		const response = await fetch(formEl.action, {
+			method: 'POST',
+			body: formData
+		});
 	}
+
+	function onAlbumSelect(event: CustomEvent<AutocompleteOption<string>>): void {
+		inputValue = event.detail.label;
+	}
+
 </script>
 
 <div class="w-full max-w-xl">
-	<form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="POST">
+	<form
+		class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+		on:submit|preventDefault={addImages}
+		method="POST"
+	>
+		<input
+			class="input"
+			type="search"
+			name="album"
+			bind:value={inputValue}
+			placeholder="Select an Album..."
+		/>
+		<Autocomplete bind:input={inputValue} options={albumOptions} on:selection={onAlbumSelect} />
 		<div class="mb-4">
-			<label class="block text-gray-700 text-sm font-bold mb-2" for="many">
-				Upload Images:
-			</label>
+			<label class="block text-gray-700 text-sm font-bold mb-2" for="many"> Upload Images: </label>
 			<input
 				class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 				bind:files
