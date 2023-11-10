@@ -3,14 +3,18 @@
 	import Album from './Album.svelte';
 
 	export let data: PageData;
+	const albums = data.albums as IAlbum[];
+
+	console.log(data);
 
 	const getAlbumCoverInfo = (album: IAlbum) => {
 
 		const albumPhoto = album.photos.at(0);
-		if (albumPhoto) {
+		console.log(albumPhoto)
+		if (albumPhoto && albumPhoto.metadata) {
 			return {
 				imgSrc: albumPhoto.thumbnail,
-				altText: albumPhoto.title,
+				altText: albumPhoto.metadata.title
 			};
 		}
 		
@@ -23,7 +27,7 @@
 </script>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12">
-	{#each data.albums as album}
+	{#each albums as album}
 		<Album altText={getAlbumCoverInfo(album).altText} imgSrc={getAlbumCoverInfo(album).imgSrc} title={album.title} />
 	{/each}
 </div>

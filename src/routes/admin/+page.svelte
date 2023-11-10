@@ -28,14 +28,15 @@
 						console.log(exifData);
 
 						const relevantMetadata = {
-							cameraMake: exifData.Make,
-							cameraModel: exifData.Model,
+							make: exifData.Make,
+							model: exifData.Model,
 							lens: exifData.LensModel,
 							focalLength: exifData.FocalLength,
 							aperture: exifData.FNumber,
 							shutterSpeed: Math.round(Math.pow(2, Number(exifData.ShutterSpeedValue))),
 							iso: exifData.ISO,
-							dateTime: exifData.CreateDate
+							captureDate: exifData.CreateDate,
+							title: file.name
 						};
 
 						payload.push({ fileName: file.name, metadata: relevantMetadata });

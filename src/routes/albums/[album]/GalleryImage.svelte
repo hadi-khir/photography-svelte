@@ -23,9 +23,11 @@
 	});
 
 	const getPhotoInfo = (photo: IPhoto) => {
+		
+		const altText = photo.metadata ? photo.metadata.title : 'No title';
 		return {
 			imgSrc: photo.thumbnail,
-			altText: photo.title,
+			altText: altText,
 			id: photo.id
 		};
 	};

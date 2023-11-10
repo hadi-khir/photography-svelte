@@ -11,22 +11,11 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Lens {
-  id Int @id @default(autoincrement())
-  name String @unique
-  metadata Metadata[]
-  camera Camera []
-}
-
-model Camera {
-  id Int @id @default(autoincrement())
-  model String @unique
-  lens Lens[]
-  metadata Metadata[]
-}
-
 model Metadata {
   id Int @id @default(autoincrement())
+  make String
+  model String
+  lens String
   captureDate DateTime? @db.Date
   iso Int
   aperture Float
@@ -36,17 +25,9 @@ model Metadata {
   caption String?
   copyright String?
   location String?
-  city String
-  province String
-  country String
-
-  camera Camera @relation(fields: [cameraId], references: [id])
-  cameraId Int
-  @@index([cameraId])
-
-  lens Lens @relation(fields: [lensId], references: [id])
-  lensId Int
-  @@index([lensId])
+  city String?
+  province String?
+  country String?
 
   photo Photo @relation(fields: [photoId], references: [id])
   photoId Int @unique
@@ -60,7 +41,6 @@ model Album {
 
 model Photo {
   id Int @id @default(autoincrement())
-  title String @unique
   url String
   thumbnail String
   album Album @relation(fields: [albumId], references: [id])
