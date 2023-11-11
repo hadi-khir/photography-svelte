@@ -52,13 +52,11 @@ export const POST: RequestHandler = async ({ request }) => {
           // TODO: Handle response after storage upload
         }
 
-        if (errors.length === 0) {
-          const publicUrl = getPublicUrlForUploadedImage(
-            thumbnailPath,
-            thumbnailFile.name
-          );
-          uploadedThumbnails.push({ publicUrl: publicUrl, name: image.name });
-        }
+        const publicUrl = getPublicUrlForUploadedImage(
+          thumbnailPath,
+          thumbnailFile.name
+        );
+        uploadedThumbnails.push({ publicUrl: publicUrl, name: image.name });
       }
     }
 
@@ -82,7 +80,7 @@ export const POST: RequestHandler = async ({ request }) => {
       );
 
       const mainImage = uploadedImages.find(
-        (image) => image.name === String(image.name)
+        (mainImage) => mainImage.name === String(image.name)
       );
 
       const thumbnail = uploadedThumbnails.find(
@@ -123,7 +121,10 @@ export const POST: RequestHandler = async ({ request }) => {
   return json(uploadedImages);
 };
 
-async function generateThumbnail(imgUrl: string, fileName: string): Promise<File | undefined> {
+async function generateThumbnail(
+  imgUrl: string,
+  fileName: string
+): Promise<File | undefined> {
   try {
     const response = await axios.get(imgUrl, {
       responseType: "arraybuffer",
