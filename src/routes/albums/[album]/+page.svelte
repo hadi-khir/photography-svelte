@@ -6,7 +6,7 @@
 
 	let photos: IPhoto[];
 	if (data.albumResponse && data.albumResponse.photos) {
-		photos = data.albumResponse.photos;
+		photos = data.albumResponse.photos as IPhoto[];
 	} else {
 		console.error('No photos found');
 		photos = [];

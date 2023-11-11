@@ -19,30 +19,18 @@ declare global {
         title: string;
         caption?: string | null;
         captureDate: Date | null;
-        camera?: ICamera | null;
-        lens?: ILens | null;
+        make: string;
+        model: string;
+        lens: string;
         focalLength: number;
         iso: number;
         aperture: number;
         shutterSpeed: number;
         copyright?: string | null;
         location?: string | null;
-        city: string;
-        province: string;
-        country: string;
-    }
-
-    interface ILens {
-        id: number;
-        name: string;
-        metadata?: IMetadata[];
-    }
-
-    interface ICamera {
-        id: number;
-        model: string;
-        lens?: Lens;
-        metadata?: IMetadata[];
+        city?: string | null;
+        province?: string | null;
+        country?: string | null;
     }
 
     interface IAlbum {

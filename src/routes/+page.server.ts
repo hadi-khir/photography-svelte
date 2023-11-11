@@ -6,7 +6,9 @@ export const load = (async () => {
 
 const response = await prisma.album.findMany({
 
-        include: {photos: true}
+        include: {photos: {
+            include: {metadata: true}},
+        }
     }
 );
 

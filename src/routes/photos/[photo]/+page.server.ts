@@ -6,14 +6,9 @@ export const load = (async ({ params: { photo } }) => {
     const photoResponse = await prisma.photo.findUnique({
         where: { id: Number(photo) },
         include: {
-            metadata: {
-                include: {
-                    lens: true, 
-                    camera: true
-                }
+            metadata: true,
             }
-        }
-    });
+        });
 
     return { photo: photoResponse };
 }) satisfies PageServerLoad;
