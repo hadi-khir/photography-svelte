@@ -39,6 +39,7 @@
 		<img class="h-full w-full" src={photo.url} alt={metadata.title} />
 		<div class="bg-black bg-opacity-50 text-white p-2">
 			<h1 class="text-xl">{metadata.title}</h1>
+			<h2 class="text-lg">{metadata.caption}</h2>
 			<p class="text-sm">{metadata.make + " " + metadata.model}</p>
 			<p class="text-sm">{metadata.lens}</p>
 			<p class="text-sm">Aperture: {metadata.aperture}mm</p>

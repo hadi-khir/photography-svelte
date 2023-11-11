@@ -41,7 +41,9 @@
 		"@prisma/client": "^5.5.0",
 		"@supabase/supabase-js": "^2.38.4",
 		"@tailwindcss/aspect-ratio": "^0.4.2",
+		"axios": "^1.6.1",
 		"exifr": "^7.1.3",
+		"sharp": "^0.32.6",
 		"svelte-content-loader": "^1.1.3"
 	}
 }
