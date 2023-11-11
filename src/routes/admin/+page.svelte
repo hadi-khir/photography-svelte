@@ -65,9 +65,11 @@
 	function onAlbumSelect(event: CustomEvent<AutocompleteOption<string>>): void {
 		inputValue = event.detail.label;
 	}
+
+	const env = process.env.NODE_ENV;
 </script>
 
-{#if process.env.NODE_ENV !== 'development'}
+{#if env !== 'development'}
 	<h1 class="text-2xl font-bold">Get outta here!</h1>
 {:else}
 	<div class="w-full max-w-xl">

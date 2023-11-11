@@ -5,7 +5,6 @@ import prisma from "$lib/prisma";
 import sharp from "sharp";
 import type { OutputInfo } from "sharp";
 import axios from "axios";
-import { thumbnailUrl } from "exifr";
 
 export const POST: RequestHandler = async ({ request }) => {
   const formData = await request.formData();
@@ -23,55 +22,79 @@ export const POST: RequestHandler = async ({ request }) => {
     for (const file of images) {
       const image = file as File;
 
-      const { error } = await supabase.storage
-        .from("photos/" + albumTitle)
-        .upload(image.name, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
+      const { response, error } = await storeImage(albumTitle, image);
 
       if (error) {
         errors.push(error);
+        // TODO: Handle error after storage upload
       }
 
-      const publicUrl = await supabase.storage
-        .from("photos")
-        .getPublicUrl(albumTitle + "/" + image.name);
+      if (response) {
+        // TODO: Handle response after storage upload
+      }
+
+      const publicUrl = getPublicUrlForUploadedImage(albumTitle, image.name);
       uploadedImages.push({ publicUrl: publicUrl, name: image.name });
-
-      const thumbnailFile = await generateThumbnail(publicUrl.data.publicUrl);
-
+      const thumbnailFile = await generateThumbnail(publicUrl, image.name);
       if (thumbnailFile) {
-        const {data: response, error: thumbnailError } = await supabase.storage
-          .from("photos/" + albumTitle + "/thumbs")
-          .upload(image.name, thumbnailFile, {
-            cacheControl: "3600",
-            upsert: false,
-          });
+        const thumbnailPath = albumTitle + "/thumbs";
+        const { response, error } = await storeImage(
+          thumbnailPath,
+          thumbnailFile
+        );
 
-        if (thumbnailError) {
-          errors.push(thumbnailError);
+        if (error) {
+          errors.push(error);
+          // TODO: Handle error after storage upload
         }
 
-        const thumbnailPublicUrl = await supabase.storage
-          .from("photos")
-          .getPublicUrl(albumTitle + "/thumbs/" + image.name);
+        if (response) {
+          // TODO: Handle response after storage upload
+        }
 
-        uploadedThumbnails.push({ publicUrl: thumbnailPublicUrl, name: image.name });
+        if (errors.length === 0) {
+          const publicUrl = getPublicUrlForUploadedImage(
+            thumbnailPath,
+            thumbnailFile.name
+          );
+          uploadedThumbnails.push({ publicUrl: publicUrl, name: image.name });
+        }
       }
+    }
+
+    for (const image of uploadedImages) {
+      // check if the public url exists in the db before continuing
+      // if it does, return an error
+      // if it doesn't, continue
+      const imageExists = await prisma.photo.findFirst({
+        where: { url: image.publicUrl },
+      });
+
+      if (imageExists) {
+        console.log("Image already exists in database:" + imageExists.url);
+        continue;
+      }
+
+      //TODO: pass all this to a create function
 
       const matchingMetadata = imageMetadataList.find(
         (metadata) => metadata.fileName === String(image.name)
       );
 
-      const thumbnail = uploadedThumbnails.find(thumbnail => thumbnail.name === String(image.name)); 
-      console.log(thumbnail, matchingMetadata, publicUrl);
-      if (publicUrl && matchingMetadata && thumbnail) {
+      const mainImage = uploadedImages.find(
+        (image) => image.name === String(image.name)
+      );
+
+      const thumbnail = uploadedThumbnails.find(
+        (thumbnail) => thumbnail.name === String(image.name)
+      );
+
+      if (mainImage && matchingMetadata && thumbnail) {
         const metadata = matchingMetadata.metadata as IMetadata;
-        const response = await prisma.photo.create({
+        await prisma.photo.create({
           data: {
-            url: String(publicUrl.data.publicUrl),
-            thumbnail: String(thumbnail.publicUrl.data.publicUrl),
+            url: String(mainImage.publicUrl),
+            thumbnail: String(thumbnail.publicUrl),
             metadata: {
               create: {
                 make: metadata.make,
@@ -93,10 +116,6 @@ export const POST: RequestHandler = async ({ request }) => {
             },
           },
         });
-        
-        if (error) {
-          errors.push(error);
-        }
       }
     }
   }
@@ -104,7 +123,7 @@ export const POST: RequestHandler = async ({ request }) => {
   return json(uploadedImages);
 };
 
-async function generateThumbnail(imgUrl: string): Promise<File | undefined> {
+async function generateThumbnail(imgUrl: string, fileName: string): Promise<File | undefined> {
   try {
     const response = await axios.get(imgUrl, {
       responseType: "arraybuffer",
@@ -122,10 +141,31 @@ async function generateThumbnail(imgUrl: string): Promise<File | undefined> {
       })
       .toBuffer({ resolveWithObject: true });
 
-    const file = new File([data], "thumbnail.jpg", { type: info.format });
+    const file = new File([data], fileName, { type: info.format });
 
     return file;
   } catch (error) {
     console.log(error);
   }
 }
+
+const storeImage = async (albumTitle: string, image: File) => {
+  const bucketName: string = "photos";
+  const cacheControl: string = "3600";
+
+  const { data, error } = await supabase.storage
+    .from(bucketName + "/" + albumTitle)
+    .upload(image.name, image, {
+      cacheControl: cacheControl,
+      upsert: false,
+    });
+
+  return { response: data, error: error };
+};
+
+const getPublicUrlForUploadedImage = (albumTitle: string, fileName: string) => {
+  const bucketName = "photos";
+  return supabase.storage
+    .from(bucketName)
+    .getPublicUrl(albumTitle + "/" + fileName).data.publicUrl;
+};
