@@ -5,12 +5,9 @@
 	export let data: PageData;
 	const albums = data.albums as IAlbum[];
 
-	console.log(data);
-
 	const getAlbumCoverInfo = (album: IAlbum) => {
 
 		const albumPhoto = album.photos.at(0);
-		console.log(albumPhoto)
 		if (albumPhoto && albumPhoto.metadata) {
 			return {
 				imgSrc: albumPhoto.thumbnail,
