@@ -6,25 +6,31 @@
 	const albums = data.albums as IAlbum[];
 
 	const getAlbumCoverInfo = (album: IAlbum) => {
+		const numOfAlbums = album.photos.length;
+		const randomIndex = Math.floor(Math.random() * numOfAlbums);
+		const albumPhoto = album.photos.at(randomIndex);
 
-		const albumPhoto = album.photos.at(0);
 		if (albumPhoto && albumPhoto.metadata) {
 			return {
 				imgSrc: albumPhoto.thumbnail,
 				altText: albumPhoto.metadata.title
 			};
 		}
-		
+
 		console.log('No album cover photo found, returning empty info');
 		return {
 			imgSrc: '',
-			altText: '',
+			altText: ''
 		};
-	}
+	};
 </script>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12">
 	{#each albums as album}
-		<Album altText={getAlbumCoverInfo(album).altText} imgSrc={getAlbumCoverInfo(album).imgSrc} title={album.title} />
+		<Album
+			altText={getAlbumCoverInfo(album).altText}
+			imgSrc={getAlbumCoverInfo(album).imgSrc}
+			title={album.title}
+		/>
 	{/each}
 </div>

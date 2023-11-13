@@ -4,7 +4,6 @@
 	import type { PageData } from './$types';
 	import { Autocomplete } from '@skeletonlabs/skeleton';
 	import type { AutocompleteOption } from '@skeletonlabs/skeleton';
-	import { navigating } from '$app/stores';
 
 	let files: FileList;
 	let payload: { fileName: string; metadata: {} }[] = [];
