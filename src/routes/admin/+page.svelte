@@ -11,6 +11,7 @@
 	let albumNames: { label: string; value: string }[] = [];
 	let inputValue = '';
 	let albumOptions: AutocompleteOption<string>[] = [];
+	let formLoading = false;
 
 	$: if (files) {
 		for (const file of files) {
@@ -52,6 +53,7 @@
 	});
 
 	async function addImages(event: Event) {
+		formLoading = true;
 		const formEl = event.target as HTMLFormElement;
 		const formData = new FormData(formEl);
 		formData.append('metadata', JSON.stringify(payload));
@@ -59,6 +61,9 @@
 		const response = await fetch(formEl.action, {
 			method: 'POST',
 			body: formData
+		}).then((res) => {
+			res.json();
+			formLoading = false;
 		});
 	}
 
@@ -71,6 +76,10 @@
 
 {#if env !== 'development'}
 	<h1 class="text-2xl font-bold">Get outta here!</h1>
+{:else if formLoading}
+	<div class="w-full max-w-xl bg-white shadow-md rounded">
+		<h1 class="text-2xl font-bold">Loading...</h1>
+	</div>
 {:else}
 	<div class="w-full max-w-xl">
 		<form

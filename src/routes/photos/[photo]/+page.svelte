@@ -53,7 +53,7 @@
 		<p class="text-white">Failed to load image</p>
 	</div>
 {:else if loading}
-	<ContentLoader>
+	<ContentLoader uniqueKey="photo_content_placeholder">
 		<rect x="0" y="0" rx="3" ry="3" width="2500" height="100" />
 		<rect x="20" y="20" rx="3" ry="3" width="2200" height="100" />
 		<rect x="20" y="40" rx="3" ry="3" width="1700" height="100" />
