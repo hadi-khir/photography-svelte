@@ -13,7 +13,7 @@
 	}
 </script>
 
-<div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+<div class="grid grid-cols-1 sm:grid-cols-4 gap-4 justify-items-center items-center">
 	{#each photos as photo}
 		<GalleryImage photo={photo} />
 	{/each}
